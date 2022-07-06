@@ -6,7 +6,7 @@ const LoginScreen = () => {
   return (
       <View>
         <Text>
-          
+          My Profile Screen
         </Text>
       </View>
   );
