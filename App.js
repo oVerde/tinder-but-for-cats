@@ -1,5 +1,5 @@
 import StackNavigator from './StackNavigator';
-import AuthProvider from './hooks/AuthProvider';
+import AuthProvider from './hooks/useAuth';
 import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
