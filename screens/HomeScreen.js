@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React from 'react';
 
 import {
   Button,
@@ -9,16 +9,14 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTailwind } from 'tailwind-rn';
-import PawnIcon from '../assets/PawnIcon.svg';
-import ChatIcon from '../assets/ChatIcon.svg';
-import ProfileIcon from '../assets/ProfileIcon.svg';
+import PawnIcon from '../assets/PawnIcon.svg.js';
+import ChatIcon from '../assets/ChatIcon.svg.js';
+import ProfileIcon from '../assets/ProfileIcon.svg.js';
 
 const HomeScreen = () => {
 
   const tw = useTailwind();
   const navigation = useNavigation();
-
-  // useLayoutEffect(() => {null}, []);
 
   return (
       <SafeAreaView>
