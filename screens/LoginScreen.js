@@ -8,7 +8,7 @@ const LoginScreen = () => {
   return (
       <View style={styles.loginScreen}>
         <Text style={styles.loginHeader}>
-          { user ? (`02`) : (`Sign in`) })}
+          { user ? `03` : `Sign in` }
         </Text>
       </View>
 
@@ -19,18 +19,19 @@ const styles = StyleSheet.create({
 
   loginScreen: {
     flex: 1,
-    flexDirection: 'column', //just to make sure it's a column
+    flexDirection: 'row', //just to make sure it's a column
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#E5E5E5',
   },
 
   loginHeader: {
+    top: 0,
+    color: '#BFBFC0',
     fontFamily: 'Nunito Sans',
     fontSize: 126,
     fontWeight: 'bold',
     letterSpacing: 0,
-    lineHeight: 32,
+    lineHeight: 172,
   },
 });
 
