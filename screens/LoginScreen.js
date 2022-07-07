@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   loginHeader: {
     fontFamily: 'Nunito Sans',
     fontSize: 126,
-    fontWeight: 'Bold',
+    fontWeight: 'bold',
     letterSpacing: 0,
     lineHeight: 32,
   },
