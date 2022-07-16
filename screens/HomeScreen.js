@@ -22,12 +22,6 @@ const CARD_HEIGHT = CARD_WIDTH;
 const IMAGE_WIDTH = CARD_WIDTH * 0.95;
 const DURATION = 150;
 
-// interface CardProps {
-//   card,
-//   shuffleBack: Animated.SharedValue<boolean>;
-//   index: number;
-// }
-
 const Card = ( { card, shuffleBack, index } ) => {
   const offset = useSharedValue({ x: 0, y: 0 });
   const translateX = useSharedValue(0);
@@ -64,9 +58,11 @@ const Card = ( { card, shuffleBack, index } ) => {
     offset.value.y = translateY.value;
     rotateZ.value = withTiming(0);
     scale.value = withTiming(1.1);
+
   }).onUpdate(( { translationX, translationY } ) => {
     translateX.value = offset.value.x + translationX;
     translateY.value = offset.value.y + translationY;
+
   }).onEnd(( { velocityX, velocityY } ) => {
     const dest = snapPoint(translateX.value, velocityX, SNAP_POINTS);
     translateX.value = withSpring(dest, { velocity: velocityX });
@@ -112,31 +108,35 @@ const Card = ( { card, shuffleBack, index } ) => {
 const HomeScreen = () => {
   const [ data, setData ] = useState([]);
 
+  const shuffleBack = useSharedValue(false);
+
   const requestOptions = {
     method: 'GET',
     redirect: 'follow',
   };
 
   /**
+   * # Get the cats breeds from the API
    * TODO: fix this fetch, appears to not be working
+   * @name getCatsBreeds
+   * @private
+   * @type {function}
+   * @return {Promise<void>}
    */
   const getCatsBreeds = async() => {
-    try {
-      const response = await fetch('https://api.thecatapi.com/v1/breeds',
-          requestOptions);
-      return setData(await response.json());
-    } catch (error) {
-      console.error(error);
-    }
+    return fetch(
+        'https://api.thecatapi.com/v1/breeds',
+        requestOptions,
+    ).then(response => response.json()
+    ).then(json => setData(json)
+    ).catch(error => console.log('error', error));
   };
 
   useEffect(() => {
     getCatsBreeds();
   }, []);
 
-  console.log('-> DATA:', data.slice(0, 10));
-
-  const shuffleBack = useSharedValue(false);
+  console.log('-> DATA:', data.slice(0, 3));
 
   return (
       <View style={[
