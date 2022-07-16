@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
 
   loginHeader: {
-    top: 0,
+    top: 20,
     color: '#BFBFC0',
     fontFamily: 'Nunito Sans',
     fontSize: 126,
