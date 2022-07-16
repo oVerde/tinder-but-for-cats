@@ -41,7 +41,7 @@ const Tabs = () => {
                    flex-1
                    w-5
                    h-5`,
-                   { resizeMode: 'contain' },
+                       { resizeMode: 'contain' },
                    )}/>
           </View>
           <View>
@@ -50,7 +50,7 @@ const Tabs = () => {
                    flex-1
                    w-5
                    h-5`,
-                   { resizeMode: 'contain' },
+                       { resizeMode: 'contain' },
                    )}/>
           </View>
           <View>
@@ -59,7 +59,7 @@ const Tabs = () => {
                    flex-1
                    w-5
                    h-5`,
-                   {resizeMode: 'contain'}
+                       { resizeMode: 'contain' },
                    )}/>
           </View>
         </View>
