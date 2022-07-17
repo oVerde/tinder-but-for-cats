@@ -74,8 +74,8 @@ const TabNavigator = () => {
           <FlatList
               style={{ flex: 1, width, height }}
               data={[
-                { key: 2, screen: <ChatScreen/> },
                 { key: 1, screen: <HomeScreen/> },
+                { key: 2, screen: <ChatScreen/> },
                 { key: 3, screen: <LoginScreen/> },
               ]}
               onTouchStart={() => {
