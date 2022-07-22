@@ -1,8 +1,11 @@
-import React from 'react';
-import HomeScreen from './screens/HomeScreen';
-import ChatScreen from './screens/ChatScreen';
-import LoginScreen from './screens/LoginScreen';
-import tw from 'twrnc';
+// @flow
+import * as React from "react";
+import HomeScreen from "./screens/HomeScreen";
+import ChatScreen from "./screens/ChatScreen";
+import LoginScreen from "./screens/LoginScreen";
+import tw from "twrnc";
+import { FlatList } from "react-native-gesture-handler"
+import { Dimensions, Image, View } from "react-native";
 
 import {
   Image,
@@ -14,8 +17,10 @@ import {
 const { width, height } = Dimensions.get('screen');
 
 const Tabs = () => {
+
   return (
-      <View style={{
+    <View
+      style={{
         width,
         alignItems: 'center',
         bottom: '15%',
@@ -59,15 +64,16 @@ const Tabs = () => {
                    flex-1
                    w-5
                    h-5`,
-                       { resizeMode: 'contain' },
-                   )}/>
-          </View>
+              { resizeMode: "contain" }
+            )}
+          />
         </View>
       </View>
+    </View>
   );
 };
 
-const TabNavigator = () => {
+const TabNavigator = (): React.Element<Object> => {
   return (
       <>
         <View style={tw`flex-row -z-10`}>

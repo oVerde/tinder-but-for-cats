@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Dimensions, Image } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { snapPoint } from 'react-native-redash';
+// @flow
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { snapPoint } from "react-native-redash";
 import Animated, {
   Easing,
   useAnimatedReaction,
@@ -9,11 +11,11 @@ import Animated, {
   useSharedValue,
   withDelay,
   withSpring,
-  withTiming,
-} from 'react-native-reanimated';
-import tw from 'twrnc';
+  withTiming
+} from "react-native-reanimated";
+import tw from "twrnc";
 
-const { width: wWidth, height } = Dimensions.get('window');
+const { width: wWidth, height } = Dimensions.get("window");
 
 const SNAP_POINTS = [ -wWidth, 0, wWidth ];
 const aspectRatio = 722 / 368;
@@ -23,7 +25,7 @@ const IMAGE_WIDTH = CARD_WIDTH * 0.95;
 const DURATION = 150;
 
 // interface CardProps {
-//   card,
+//   card: any,
 //   shuffleBack: Animated.SharedValue<boolean>;
 //   index: number;
 // }
@@ -64,9 +66,11 @@ const Card = ( { card, shuffleBack, index } ) => {
     offset.value.y = translateY.value;
     rotateZ.value = withTiming(0);
     scale.value = withTiming(1.1);
+
   }).onUpdate(( { translationX, translationY } ) => {
     translateX.value = offset.value.x + translationX;
     translateY.value = offset.value.y + translationY;
+
   }).onEnd(( { velocityX, velocityY } ) => {
     const dest = snapPoint(translateX.value, velocityX, SNAP_POINTS);
     translateX.value = withSpring(dest, { velocity: velocityX });
@@ -109,7 +113,7 @@ const Card = ( { card, shuffleBack, index } ) => {
   );
 };
 
-const HomeScreen = () => {
+const HomeScreen = ( props: React.ElementProps<Object> ): React.Element<Object> => {
   const [ data, setData ] = useState([]);
 
   const requestOptions = {
@@ -117,9 +121,6 @@ const HomeScreen = () => {
     redirect: 'follow',
   };
 
-  /**
-   * TODO: fix this fetch, appears to not be working
-   */
   const getCatsBreeds = async() => {
     try {
       const response = await fetch('https://api.thecatapi.com/v1/breeds',
@@ -133,8 +134,6 @@ const HomeScreen = () => {
   useEffect(() => {
     getCatsBreeds();
   }, []);
-
-  console.log('-> DATA:', data.slice(0, 10));
 
   const shuffleBack = useSharedValue(false);
 
