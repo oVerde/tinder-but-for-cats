@@ -4,7 +4,7 @@ This is a simple exercise of a React Native application.
 
 ### To **build** _&&_  **run**:
 ```shell
-$ expo install && expo build && expo run:android
+$ expo install && expo prebuild && expo run:android
 ```
 
 ### This project includes
