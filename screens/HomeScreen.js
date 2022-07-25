@@ -42,7 +42,7 @@ const Card = ( { card, shuffleBack, index } ) => {
       () => shuffleBack.value,
       ( v ) => {
         if ( v ) {
-          const duration = 150 * index;
+          const duration = 250 * index;
           translateX.value = withDelay(
               duration,
               withSpring(0, {}, () => {
@@ -53,7 +53,15 @@ const Card = ( { card, shuffleBack, index } ) => {
         }
       },
   );
-  const gesture = Gesture.Pan().onBegin(() => {
+
+  /**
+   * TODO: fix this gesture handler, it's not working on Flat-list
+   * @type {Animated.SharedValue<number>}
+   * @memberof Card
+   * @private
+   */
+  const gesturePan = Gesture.Pan().onBegin(() => {
+    console.log("Gesture");
     offset.value.x = translateX.value;
     offset.value.y = translateY.value;
     rotateZ.value = withTiming(0);
@@ -79,17 +87,23 @@ const Card = ( { card, shuffleBack, index } ) => {
   const style = useAnimatedStyle(() => ( {
     transform: [
       { perspective: 1500 },
-      { rotateX: '10deg' },
+      { rotateX: '5deg' },
       { translateX: translateX.value },
       { translateY: translateY.value },
       { rotateY: `${rotateZ.value / 10}deg` },
       { rotateZ: `${rotateZ.value}deg` },
       { scale: scale.value },
     ],
-  } ));
+  }));
+
   return (
-      <View style={styles.container} pointerEvents="box-none">
-        <GestureDetector gesture={gesture}>
+      <View style={
+            tw`
+            absolute
+            bg-red-800`
+            }
+            pointerEvents="box-none">
+        <GestureDetector gesture={gesturePan} style={tw`z-10 h-1  bg-red-800`}>
           <Animated.View style={[ styles.card, style ]}>
             <Image
                 source={{ uri: card }}
@@ -140,21 +154,19 @@ const HomeScreen = () => {
 
   return (
       <View style={[
-        tw`
-          z-20 
-          w-full 
-          h-full 
-          bg-[#E5E5E5] 
-          justify-center 
-          items-center`,
-        styles.container,
-      ]}>
+            tw`
+            z-10  
+            bg-[#E5E5E5] 
+            content-center`,
+            styles.container,
+            ]}>
         {data.slice(0, 10).map(( card, index ) => (
             <Card
+                {...props}
                 style={tw`
-                      z-30 
-                      bg-slate-200
-                      `}
+                       z-10 
+                       bg-slate-200`
+                }
                 card={card.image.url}
                 key={index}
                 index={index}
@@ -167,7 +179,7 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFillObject, // make container full screen
     justifyContent: 'center',
     alignItems: 'center',
   },
