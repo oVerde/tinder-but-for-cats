@@ -73,7 +73,7 @@ const Tabs = () => {
   );
 };
 
-const TabNavigator = (): React.Element<Object> => {
+const TabNavigator = () => {
   return (
     <>
       <View style={tw`flex-row`}>

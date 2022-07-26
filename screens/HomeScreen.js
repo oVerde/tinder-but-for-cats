@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Dimensions, Image } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { snapPoint } from 'react-native-redash';
+// @flow
+import * as React from "react";
+import { useEffect } from "react";
+import { Dimensions, Image, StyleSheet, View, Text } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { useQuery } from "urql";
+import { snapPoint } from "react-native-redash";
 import Animated, {
   Easing,
   useAnimatedReaction,
@@ -119,62 +122,57 @@ const Card = ( { card, shuffleBack, index } ) => {
   );
 };
 
+const breedsQuery = `
+  query {
+    breeds {
+      id
+      name
+      image {
+      url
+      }
+    }
+  }
+`;
+
 const HomeScreen = () => {
-  const [ data, setData ] = useState([]);
+  const [ result, reexcuteQuery ] = useQuery({
+    query: breedsQuery,
+  });
+  const { data, fetching, error } = result;
+
+  console.log('-> DATA:', fetching);
 
   const shuffleBack = useSharedValue(false);
 
-  const requestOptions = {
-    method: 'GET',
-    redirect: 'follow',
-  };
-
-  /**
-   * # Get the cats breeds from the API
-   * TODO: fix this fetch, appears to not be working
-   * @name getCatsBreeds
-   * @private
-   * @type {function}
-   * @return {Promise<void>}
-   */
-  const getCatsBreeds = async() => {
-    return fetch(
-        'https://api.thecatapi.com/v1/breeds',
-        requestOptions,
-    ).then(response => response.json()
-    ).then(json => setData(json)
-    ).catch(error => console.log('error', error));
-  };
-
-  useEffect(() => {
-    getCatsBreeds();
-  }, []);
-
-  console.log('-> DATA:', data.slice(0, 3));
-
   return (
-      <View style={[
-            tw`
-            z-10  
-            bg-[#E5E5E5] 
-            content-center`,
-            styles.container,
+      <>
+        {fetching && <Text style={tw`flex-1 items-center justify-center`}>Loading...</Text>}
+        {error && <Text style={tw`flex-1 items-center justify-center`}>{JSON.stringify(error)}</Text>}
+        {!fetching && !error &&
+            <View style={[
+              tw`
+              z-10  
+              bg-[#E5E5E5] 
+              content-center
+              justify-center
+              h-full
+              items-center`
             ]}>
-        {data.slice(0, 10).map(( card, index ) => (
-            <Card
-                {...props}
-                style={tw`
-                       z-10 
-                       bg-slate-200`
-                }
-                card={card.image.url}
-                key={index}
-                index={index}
-                shuffleBack={shuffleBack}
-            />
-        ))}
-      </View>
-  );
+              {data.breeds.slice(0, 10).map(( card, index ) => (
+                  <Card
+                      style={tw`
+                             z-10
+                             w-full 
+                             bg-slate-200`}
+                      card={card.image.url}
+                      key={index}
+                      index={index}
+                      shuffleBack={shuffleBack}
+                  />
+              ))}
+            </View>
+        }
+      </> )
 };
 
 const styles = StyleSheet.create({

@@ -17,15 +17,17 @@ import { DevSupport } from '@react-buddy/ide-toolbox';
 export default function App(): React.Node {
   useDeviceContext(tw);
   return (
-      <DevSupport>
-        <GestureHandlerRootView>
-          <StatusBar translucent/>
-          <SafeAreaView>
+    <DevSupport>
+      <GestureHandlerRootView>
+        <StatusBar translucent />
+        <SafeAreaView>
+          <GraphQLProvider>
             <AuthProvider>
               <TabNavigator/>
             </AuthProvider>
-          </SafeAreaView>
-        </GestureHandlerRootView>
-      </DevSupport>
+          </GraphQLProvider>
+        </SafeAreaView>
+      </GestureHandlerRootView>
+    </DevSupport>
   );
 }
